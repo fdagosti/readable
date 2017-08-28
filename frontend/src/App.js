@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import './App.css';
-import {Link, Route} from "react-router-dom";
-import Categories from "./components/categories"
-import {FlatButton, FloatingActionButton, RaisedButton} from "material-ui";
+import {Route} from "react-router-dom";
+import Home from "./components/Home";
+import CategoryPosts from "./components/CategoryDetail";
+import PostDetail from "./components/PostDetail";
+import Link from "react-router-dom/es/Link";
 
 class App extends Component {
 
@@ -10,27 +12,26 @@ class App extends Component {
     return (
 
       <div className="App">
+          <Link to="/">
+              <div className="App-header">
+                  <div className="App-intro">Posts and comments</div>
+                  <div>A great way to learn react and Redux</div>
+              </div>
+          </Link>
+          <div className="container">
+              <Route exact path={"/"}
+                     component={Home}
+              />
+              <Route path={"/category/:id"}
+                     component={CategoryPosts}
+              />
+              <Route path = {'/post/:id'}
+                     component={PostDetail}
+              />
+              <Route path={"/post/:id/edit"}/>
+              <Route path={"/newPost"}/>
+          </div>
 
-        <Route exact path={"/"}
-           render={() => (<div>
-               <p>Root Screen</p>
-               <Link to="/category/dummy"><FlatButton primary={true}>Dummy Category</FlatButton></Link>
-               <br/>
-               <FlatButton secondary={true} containerElement={<Link to="/post/dummy"/>}>Dummy post</FlatButton>
-               <br/>
-               <RaisedButton primary={true} containerElement={<Link to="/post/dummy/edit"/>}>Edit a post</RaisedButton>
-               <br/>
-               <RaisedButton secondary={true} containerElement={<Link to="/newPost"/>}>new post</RaisedButton>
-           </div>)}
-        />
-        <Route path={"/category/:id"}
-               component={Categories}
-        />
-        <Route path = {'/post/:id'}
-           component={PostDetail}
-        />
-        <Route path={"/post/:id/edit"}/>
-        <Route path={"/newPost"}/>
 
       </div>
     );
@@ -38,6 +39,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-const PostDetail = ({match}) => (<div>Post Details {match.params.id}</div>)
