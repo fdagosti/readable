@@ -37,3 +37,14 @@ export function deleteComment(commentId){
       .then(res => {console.log("res",res);return res})
 }
 
+export function createComment(id, timestamp, body, owner, parentId){
+    const url = `/comments/`
+    return fetch(url, {
+        headers: { 'Authorization': 'whatever-you-want','Content-Type': 'application/json'},
+        method: "POST",
+        body: JSON.stringify({id, timestamp,body,owner,parentId})
+    })
+        .then(res => res.json())
+      .then(res => {console.log("res",res);return res})
+}
+

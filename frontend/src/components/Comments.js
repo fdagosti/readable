@@ -8,7 +8,7 @@ export default class Comments extends Component{
         commentOrderFunc: null
     }
 
-    handleChange = commentOrderFunc => this.setState(state => ({...state,commentOrderFunc}))
+    handleChange = commentOrderFunc => this.setState({commentOrderFunc})
 
     render(){
 

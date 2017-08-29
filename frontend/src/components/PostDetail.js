@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import {deleteComment, getComments, getPost} from "../utils/api";
 import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 export default class PostDetail extends Component{
 
@@ -18,6 +19,8 @@ export default class PostDetail extends Component{
 
     }
 
+    onCommentCreated = (newComment) => this.setState(state => ({...state, comments: state.comments.concat(newComment)}))
+
     commentDeleteHandler = (commentId) => deleteComment(commentId)
         .then((res)=> this.setState(state => ({...state, comments: state.comments.filter(c=>c.id !== commentId)})))
 
@@ -33,6 +36,9 @@ export default class PostDetail extends Component{
                 <h5>Votes: {post.voteScore}</h5>
                 <p>{post.body}</p>
                 {comments && <Comments comments={comments} deleteHandler={this.commentDeleteHandler}></Comments>}
+
+                <CommentForm postId={post.id} onCreated={this.onCommentCreated}></CommentForm>
+
             </div>)
     }
 }

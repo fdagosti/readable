@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {Card, CardActions, CardHeader, CardText, FlatButton} from "material-ui";
+import Vote from "./Vote";
 
 export default class Comment extends Component{
 
@@ -17,6 +18,7 @@ export default class Comment extends Component{
                 <CardActions>
                     <FlatButton primary={true} label="Edit"/>
                     <FlatButton onClick={deleteHandler} secondary={true} label="Delete"/>
+                    <Vote score={comment.voteScore}></Vote>
                 </CardActions>
             </Card>
         )
