@@ -2,13 +2,46 @@ import React from "react"
 import {IconButton} from "material-ui";
 import {HardwareKeyboardArrowDown, HardwareKeyboardArrowUp} from "material-ui/svg-icons/index";
 
+const styles = {
+    smallIcon: {
+        width: 20,
+        height: 20,
+    },
+    mediumIcon: {
+        width: 48,
+        height: 48,
+    },
+    largeIcon: {
+        width: 60,
+        height: 60,
+    },
+    small: {
+        verticalAlign: "middle",
+        width: 20,
+        height: 20,
+        padding: 0,
+    },
+    medium: {
+        width: 96,
+        height: 96,
+        padding: 24,
+    },
+    large: {
+        width: 120,
+        height: 120,
+        padding: 30,
+    },
+}
+
 const Vote = (props) => (
     <span>
-        <IconButton tooltip="DownVote the comment">
+        <IconButton iconStyle={styles.smallIcon} style={styles.small} tooltip="DownVote">
             <HardwareKeyboardArrowDown />
         </IconButton>
-        <span style={{padding: "12px 0 12px 0", height: "48px", width: "48px", display: "inline-block", boxSizing: "border-box", verticalAlign: "super", textAlign: "center"}}>{props.score}</span>
-        <IconButton tooltip="UpVote the comment">
+        <span style={{...styles.small,display: "inline-block", boxSizing: "border-box", verticalAlign: "inherit", textAlign: "center"}}>
+            {props.score}
+            </span>
+        <IconButton iconStyle={styles.smallIcon} style={styles.small} tooltip="UpVote">
             <HardwareKeyboardArrowUp />
         </IconButton>
     </span>

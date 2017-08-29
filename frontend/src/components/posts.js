@@ -3,6 +3,7 @@ import {Avatar, List, ListItem, Paper, Subheader} from "material-ui";
 import {ActionViewHeadline} from "material-ui/svg-icons/index";
 import {Link} from "react-router-dom";
 import PostSorter from "./PostsSorter";
+import Vote from "./Vote";
 
 
 export default class Posts extends Component{
@@ -36,7 +37,7 @@ export default class Posts extends Component{
                                         secondaryText={
                                             <div>
                                                 <div>Created on {new Date(post.timestamp).toLocaleDateString()}</div>
-                                                <div>Vote Score: {post.voteScore}</div>
+                                                <div><Vote score={post.voteScore}></Vote></div>
                                             </div>
                                         }
                                     />
