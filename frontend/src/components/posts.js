@@ -29,9 +29,7 @@ const rightIconMenu = (dispatch, post) =>(
 class Posts extends Component{
 
     render(){
-
-        const {posts, dispatch, orderFunc} = this.props
-
+        const {posts, dispatch, orderFunc, commentsNumber} = this.props
         return <div>
             {posts && posts.length>1 && <PostSorter ></PostSorter>}
             <RaisedButton onClick={() => dispatch(showCommentForm(true, null, null))} label="Add Post" primary={true} style={{margin:12}} />
@@ -51,8 +49,8 @@ class Posts extends Component{
                                         secondaryTextLines={2}
                                         secondaryText={
                                             <div>
-                                                <div>Created on {new Date(post.timestamp).toLocaleDateString()}</div>
-                                                <div><Vote data={post}></Vote></div>
+                                                <div>Created on {new Date(post.timestamp).toLocaleDateString()} by <b>{post.author}</b></div>
+                                                <div>comments: {commentsNumber[post.id]|| 0} &nbsp;&nbsp;&nbsp;Votes: <Vote data={post}></Vote></div>
                                             </div>
                                         }
                                     />
@@ -65,9 +63,16 @@ class Posts extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({messageSorting, comments}) => {
+
     return {
-        orderFunc: state.messageSorting.orderFunction,
+        debug: comments,
+        orderFunc: messageSorting.orderFunction,
+        commentsNumber: Object.keys(comments).reduce((commentsByPosts, commentId)=>{
+            if (commentsByPosts[comments[commentId].parentId] ) commentsByPosts[comments[commentId].parentId]++
+            else commentsByPosts[comments[commentId].parentId]=1
+            return commentsByPosts
+        },{})
     };
 };
 

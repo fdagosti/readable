@@ -51,10 +51,11 @@ export function categoriesFetchSuccess(categories){
     }
 }
 
-export function commentsFetchSuccess(comments){
+export function commentsFetchSuccess(comments, postId){
     return {
         type: COMMENTS_FETCH_SUCCESS,
-        comments
+        comments,
+        postId
     }
 }
 
@@ -131,7 +132,8 @@ export function showCommentForm(displayed, parentId, comment){
 export function postsFetch(){
     return (dispatch) => {
         getPosts()
-            .then((posts) => dispatch(postsFetchSuccess(posts)))
+            .then((posts) => {dispatch(postsFetchSuccess(posts));return posts})
+            .then((posts) => posts.forEach(post => dispatch(commentsFetch(post.id))))
     }
 }
 
@@ -217,7 +219,7 @@ export function postEditSuccess(post){
 export function commentsFetch(postId){
     return (dispatch) => {
         getComments(postId)
-            .then((comments) => dispatch(commentsFetchSuccess(comments)))
+            .then((comments) => dispatch(commentsFetchSuccess(comments, postId)))
     }
 }
 

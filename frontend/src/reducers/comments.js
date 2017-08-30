@@ -12,20 +12,21 @@ import {
 
 
 
-export function comments (state = [], action) {
+export function comments (state = {}, action) {
     switch (action.type) {
         case COMMENTS_FETCH_SUCCESS:
-            return action.comments
+            const {comments} = action
+            return comments.reduce(((acc, comment) => {acc[comment.id] = comment;return acc}),{...state})
         case COMMENT_DELETE_SUCCESS:
             const {commentId} = action
-            return state.filter(comment=>comment.id !== commentId)
+            const result = {...state}
+            delete result[commentId]
+            return result
         case COMMENTS_ADD_SUCCESS:
-            const {comment} = action
-            return state.concat(comment)
         case COMMENT_EDIT_SUCCESS:
         case COMMENT_VOTE_SUCCESS:
             const com = action.comment || action.message
-            return state.map(c=>c.id === com.id?com:c)
+            return {...state, [com.id]:com}
         default :
             return state
     }

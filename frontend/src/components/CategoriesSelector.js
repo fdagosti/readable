@@ -15,7 +15,7 @@ class CategoriesSelector extends Component {
     render() {
         const {categories} = this.props;
         return <div style={row}>
-            {categories && categories.map(cat => <RaisedButton containerElement={<Link to={`/category/${cat.path}`}/>} key={cat.path}>{cat.name}</RaisedButton>)}
+            <span style={{lineHeight: "36px"}}>Categories: </span>{categories && categories.map(cat => <RaisedButton containerElement={<Link to={`/category/${cat.path}`}/>} key={cat.path}>{cat.name}</RaisedButton>)}
         </div>
     }
 }

@@ -38,10 +38,12 @@ class PostDetail extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({detailPost, comments}) => {
     return {
-        comments: state.comments,
-        post: state.detailPost
+        comments: Object.keys(comments)
+            .filter(commentId=> comments[commentId].parentId === detailPost.id)
+            .map(commentId => comments[commentId]),
+        post: detailPost
     };
 };
 
