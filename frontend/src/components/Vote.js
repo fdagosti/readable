@@ -2,7 +2,7 @@ import React from "react"
 import {IconButton} from "material-ui";
 import {HardwareKeyboardArrowDown, HardwareKeyboardArrowUp} from "material-ui/svg-icons/index";
 import {connect} from "react-redux";
-import {changeCommentVote} from "../actions/index";
+import {changeCommentVote, commentVote, vote} from "../actions/index";
 
 const styles = {
     smallIcon: {
@@ -40,13 +40,13 @@ const Vote = (props) => {
 
     return (
     <span>
-        <IconButton onClick={()=>props.dispatch(changeCommentVote(data.id, data.voteScore-1))} iconStyle={styles.smallIcon} style={styles.small} tooltip="DownVote">
+        <IconButton onClick={(e)=>{e.preventDefault();props.dispatch(vote(data, false))}} iconStyle={styles.smallIcon} style={styles.small} tooltip="DownVote">
             <HardwareKeyboardArrowDown />
         </IconButton>
         <span style={{...styles.small,display: "inline-block", boxSizing: "border-box", verticalAlign: "inherit", textAlign: "center"}}>
             {data.voteScore}
             </span>
-        <IconButton onClick={()=>props.dispatch(changeCommentVote(data.id, data.voteScore+1))} iconStyle={styles.smallIcon} style={styles.small} tooltip="UpVote">
+        <IconButton onClick={(e)=>{e.preventDefault();props.dispatch(vote(data, true))}} iconStyle={styles.smallIcon} style={styles.small} tooltip="UpVote">
             <HardwareKeyboardArrowUp />
         </IconButton>
     </span>

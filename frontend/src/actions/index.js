@@ -1,17 +1,18 @@
 import {
     createComment, createPost, deleteComment, deletePost, editComment, editPost, getCategories, getComments, getPost,
-    getPosts
+    getPosts, voteOnComment, voteOnPost
 } from "../utils/api";
 import * as UUID from "uuid";
 
 export const CATEGORIES_FETCH_SUCCESS = "CATEGORIES_FETCH_SUCCESS"
 
-export const COMMENT_VOTE_CHANGE = "COMMENT_VOTE_CHANGE"
+export const COMMENT_VOTE_SUCCESS = "COMMENT_VOTE_SUCCESS"
 export const COMMENTS_FETCH_SUCCESS = "COMMENTS_FETCH_SUCCESS"
 export const COMMENTS_ADD_SUCCESS = "COMMENTS_ADD_SUCCESS"
 export const COMMENT_DELETE_SUCCESS = "COMMENT_DELETE_SUCCESS"
 export const COMMENT_EDIT_SUCCESS = "COMMENT_EDIT_SUCCESS"
 
+export const POST_VOTE_SUCCESS = "POST_VOTE_SUCCESS"
 export const POST_ADD_SUCCESS = "POST_ADD_SUCCESS"
 export const POST_DETAIL_SUCCESS = "POST_DETAIL_SUCCESS"
 export const POST_DELETE_SUCCESS = "POST_DELETE_SUCCESS"
@@ -249,10 +250,18 @@ export function commentEdit(commentId, body){
 
 
 
-export function changeCommentVote(commentId, newVoteValue) {
+export function vote(message, upVote) {
     return (dispatch) => {
-        editComment(commentId, null, null, newVoteValue)
-            .then((comment) => dispatch(commentEditSuccess(comment)))
+        const func = message.parentId?voteOnComment:voteOnPost
+        func(message.id, upVote)
+            .then((message) => dispatch(voteSuccess(message)))
 
+    }
+}
+
+export function voteSuccess(message){
+    return {
+        type: message.parentId?COMMENT_VOTE_SUCCESS:POST_VOTE_SUCCESS,
+        message
     }
 }

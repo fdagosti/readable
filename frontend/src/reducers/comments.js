@@ -3,9 +3,10 @@ import {COMMENT_DELETE_SUCCESS} from "../actions";
 import {COMMENTS_ADD_SUCCESS} from "../actions";
 import {
     COMMENT_EDIT_SUCCESS, COMMENT_FORM_AUTHOR_UPDATE, COMMENT_FORM_BODY_UPDATE,
-    COMMENT_FORM_POPUP_DISPLAY_UPDATE, POST_ADD_SUCCESS, POST_DELETE_SUCCESS, POST_DETAIL_SUCCESS, POST_EDIT_SUCCESS,
+    COMMENT_FORM_POPUP_DISPLAY_UPDATE, COMMENT_VOTE_SUCCESS, POST_ADD_SUCCESS, POST_DELETE_SUCCESS, POST_DETAIL_SUCCESS,
+    POST_EDIT_SUCCESS,
     POST_FORM_CATEGORY_UPDATE,
-    POST_FORM_TITLE_UPDATE,
+    POST_FORM_TITLE_UPDATE, POST_VOTE_SUCCESS,
     POSTS_FETCH_SUCCESS
 } from "../actions/index";
 
@@ -22,7 +23,8 @@ export function comments (state = [], action) {
             const {comment} = action
             return state.concat(comment)
         case COMMENT_EDIT_SUCCESS:
-            const com = action.comment
+        case COMMENT_VOTE_SUCCESS:
+            const com = action.comment || action.message
             return state.map(c=>c.id === com.id?com:c)
         default :
             return state
@@ -34,13 +36,14 @@ export function posts (state = [], action) {
         case POSTS_FETCH_SUCCESS:
             return action.posts.filter(post=>!post.deleted)
         case POST_ADD_SUCCESS:
-            const {post} = action
-            return state.concat(post)
+            return state.concat(action.post)
         case POST_DELETE_SUCCESS:
             const {postId} = action
             return state.filter(post=>post.id !== postId)
         case POST_EDIT_SUCCESS:
-            return state.map(p=>p.id === action.post.id?action.post:p)
+        case POST_VOTE_SUCCESS:
+            const post = action.post || action.message
+            return state.map(p=>p.id === post.id?post:p)
         default :
             return state
     }
@@ -49,7 +52,8 @@ export function posts (state = [], action) {
 export function detailPost(state={}, action){
     switch (action.type){
         case POST_DETAIL_SUCCESS:
-            return action.post
+        case POST_VOTE_SUCCESS:
+            return action.post || action.message
         default:
             return state
     }
