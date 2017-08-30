@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import CategoryPosts from "./components/CategoryDetail";
 import PostDetail from "./components/PostDetail";
 import Link from "react-router-dom/es/Link";
+import CommentForm from "./components/CommentForm";
 
 class App extends Component {
 
@@ -30,6 +31,7 @@ class App extends Component {
               />
               <Route path={"/post/:id/edit"}/>
               <Route path={"/newPost"}/>
+              <CommentForm ></CommentForm>
           </div>
 
 

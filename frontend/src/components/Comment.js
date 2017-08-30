@@ -1,26 +1,38 @@
 import React, {Component} from "react"
 import {Card, CardActions, CardHeader, CardText, FlatButton} from "material-ui";
 import Vote from "./Vote";
+import {connect} from "react-redux";
+import {commentDelete, showCommentForm,} from "../actions/index";
 
-export default class Comment extends Component{
+class Comment extends Component{
 
     render (){
-        const {comment, deleteHandler} = this.props
+        const {comment, dispatch} = this.props
+
         return (
-            <Card>
-                <CardHeader
-                    title={comment.author}
-                    subtitle={new Date(comment.timestamp).toLocaleDateString()}
-                />
-                <CardText>
-                    {comment.body}
-                </CardText>
-                <CardActions>
-                    <FlatButton primary={true} label="Edit"/>
-                    <FlatButton onClick={deleteHandler} secondary={true} label="Delete"/>
-                    <Vote score={comment.voteScore}></Vote>
-                </CardActions>
-            </Card>
+            <div>
+                <Card>
+                    <CardHeader
+                        title={comment.author}
+                        subtitle={new Date(comment.timestamp).toLocaleDateString()}
+                    />
+                    <CardText>
+                        {comment.body}
+                    </CardText>
+                    <CardActions>
+                        <FlatButton
+                            primary={true} label="Edit"
+                            onClick={()=>dispatch(showCommentForm(true, comment.parentId, comment))}
+                        />
+                        <FlatButton onClick={()=>dispatch(commentDelete(comment.id))} secondary={true} label="Delete"/>
+                        <Vote score={comment.voteScore}></Vote>
+                    </CardActions>
+                </Card>
+
+            </div>
         )
     }
 }
+
+
+export default connect()(Comment)

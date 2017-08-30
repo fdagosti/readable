@@ -1,33 +1,29 @@
 import React, {Component} from "react"
-import {deleteComment, getComments, getPost} from "../utils/api";
+import {getPost} from "../utils/api";
 import Comments from "./Comments";
-import CommentForm from "./CommentForm";
 import Vote from "./Vote";
+import {connect} from "react-redux";
+import {commentsFetch, showCommentForm} from "../actions/index";
+import {FloatingActionButton} from "material-ui";
+import {ContentAdd} from "material-ui/svg-icons/index";
 
-export default class PostDetail extends Component{
+class PostDetail extends Component{
 
     state = {
         post: null,
-        comments: null,
     }
 
     componentDidMount(){
         const postId = this.props.match.params.id;
         getPost(postId)
             .then(post => this.setState({post}))
-            .then(() => getComments(postId))
-            .then(comments => this.setState(state => ({...state, comments})))
-
+            .then(() => this.props.fetchComments(postId))
     }
-
-    onCommentCreated = (newComment) => this.setState(state => ({...state, comments: state.comments.concat(newComment)}))
-
-    commentDeleteHandler = (commentId) => deleteComment(commentId)
-        .then((res)=> this.setState(state => ({...state, comments: state.comments.filter(c=>c.id !== commentId)})))
 
     render(){
 
-        const {post, comments} = this.state;
+        const {post} = this.state;
+        const {comments, showPopup} = this.props
 
         return post && (
             <div>
@@ -36,10 +32,26 @@ export default class PostDetail extends Component{
                 <h4>Post created on {new Date(post.timestamp).toLocaleDateString()}</h4>
                 <h5>Votes: <Vote score={post.voteScore}></Vote></h5>
                 <p>{post.body}</p>
-                {comments && <Comments comments={comments} deleteHandler={this.commentDeleteHandler}></Comments>}
+                {comments && <Comments comments={comments} ></Comments>}
 
-                <CommentForm postId={post.id} onCreated={this.onCommentCreated}></CommentForm>
-
+                <FloatingActionButton onClick={()=>showPopup(post.id)} style={{position: "fixed",bottom: "55px",right:"55px"}}>
+                    <ContentAdd />
+                </FloatingActionButton>
             </div>)
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        comments: state.comments,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchComments: (postId) => dispatch(commentsFetch(postId)),
+        showPopup: (postId) => dispatch(showCommentForm(true, postId)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

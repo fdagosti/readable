@@ -37,12 +37,24 @@ export function deleteComment(commentId){
       .then(res => {console.log("res",res);return res})
 }
 
-export function createComment(id, timestamp, body, owner, parentId){
+export function createComment(id, timestamp, body, author, parentId){
     const url = `/comments/`
     return fetch(url, {
         headers: { 'Authorization': 'whatever-you-want','Content-Type': 'application/json'},
         method: "POST",
-        body: JSON.stringify({id, timestamp,body,owner,parentId})
+        body: JSON.stringify({id, timestamp,body,author,parentId})
+    })
+        .then(res => res.json())
+      .then(res => {console.log("res",res);return res})
+}
+
+export function editComment(commentId, timestamp, body){
+    console.log("Edit comment ",commentId)
+    const url = `/comments/${commentId}`
+    return fetch(url, {
+        headers: { 'Authorization': 'whatever-you-want','Content-Type': 'application/json'},
+        method: "PUT",
+        body: JSON.stringify({timestamp,body})
     })
         .then(res => res.json())
       .then(res => {console.log("res",res);return res})

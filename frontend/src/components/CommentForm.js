@@ -1,43 +1,36 @@
 import React, {Component} from "react"
-import {Dialog, FlatButton, FloatingActionButton, TextField} from "material-ui";
-import {ContentAdd} from "material-ui/svg-icons/index";
-import {createComment} from "../utils/api";
-import UUID from "uuid";
+import {Dialog, FlatButton, TextField} from "material-ui";
+import {connect} from "react-redux";
+import {
+    commentAdd,
+    commentEdit,
+    commentFormAuthorUpdate,
+    commentFormBodyUpdate,
+    showCommentForm,
+} from "../actions/index";
 
-export default class CommentForm extends Component{
+class CommentForm extends Component{
 
-    state = {
-        createCommentsModalOpen: false,
-        body: null,
-        author: null
-    }
-
-    addComment = () => this.setState({createCommentsModalOpen: true});
-
-    handleClose = () => {
-        this.setState({createCommentsModalOpen: false});
-    }
 
     handleAddComment = () => {
-        const {body, author} = this.state
-        const {postId} = this.props
-        console.log("we should create a comment with ", body, author, Date.now())
-        const id = UUID.v4();
-        createComment(id, Date.now(), body, author, postId).then(newComment => {
-            this.props.onCreated(newComment)
-            this.setState({createCommentsModalOpen: false});
-        })
+        const {parentId, addComment,editComment, body, author, closePopup, commentToRender} = this.props
+        if (commentToRender){
+            editComment(body, commentToRender.id)
+        }else{
+            addComment(body, author, parentId)
+        }
+        closePopup()
     }
 
-
-
     render() {
+
+        let {updateBody, updateAuthor, closePopup, createCommentsModalOpen, commentToRender, body, author} = this.props
 
         const actions = [
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onClick={this.handleClose}
+                onClick={closePopup}
             />,
             <FlatButton
                 label="Submit"
@@ -47,28 +40,36 @@ export default class CommentForm extends Component{
             />,
         ];
 
+        if (!body && commentToRender){
+            body = commentToRender.body
+        }
+        if (!author && commentToRender){
+            author = commentToRender.author
+        }
 
         return (
             <div>
-                <FloatingActionButton onClick={this.addComment} style={{position: "fixed",bottom: "55px",right:"55px"}}>
-                    <ContentAdd />
-                </FloatingActionButton>
+
                 <Dialog
                     title="Add a comment"
                     actions={actions}
                     modal={false}
-                    open={this.state.createCommentsModalOpen}
-                    onRequestClose={this.handleClose}
+                    open={createCommentsModalOpen}
+                    onRequestClose={closePopup}
                 >
+
                         <TextField
+                            value={author||""}
                             floatingLabelText="Author"
                             hintText="Who are you?"
-                            onChange={e => this.setState({author: e.target.value})}
+                            onChange={e => updateAuthor(e.target.value)}
+                            disabled={commentToRender!=null}
                         /><br />
                         <TextField
+                            value={body||""}
                             floatingLabelText="Comment Body"
                             hintText="enter your text here"
-                            onChange={e => this.setState({body: e.target.value})}
+                            onChange={e => updateBody(e.target.value)}
                             multiLine={true}
                             rows={3}
                             rowsMax={6}
@@ -76,7 +77,28 @@ export default class CommentForm extends Component{
                         />
                 </Dialog>
             </div>
-
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        body: state.commentForm.body,
+        author: state.commentForm.author,
+        createCommentsModalOpen: state.commentForm.createCommentsModalOpen,
+        commentToRender: state.commentForm.existingComment,
+        parentId: state.commentForm.parentId
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        closePopup: () => dispatch(showCommentForm(false)),
+        updateBody: (bodyText) => dispatch(commentFormBodyUpdate(bodyText)),
+        updateAuthor: (authorText) => dispatch(commentFormAuthorUpdate(authorText)),
+        editComment: (body, commentId) => dispatch(commentEdit(commentId, body)),
+        addComment: (body, author, postId) => dispatch(commentAdd(body, author, postId))
+    };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(CommentForm)
