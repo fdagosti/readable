@@ -25,6 +25,17 @@ export const POST_FORM_CATEGORY_UPDATE = "POST_FORM_CATEGORY_UPDATE"
 export const COMMENT_FORM_AUTHOR_UPDATE = "COMMENT_FORM_AUTHOR_UPDATE"
 export const COMMENT_FORM_POPUP_DISPLAY_UPDATE = "COMMENT_FORM_POPUP_DISPLAY_UPDATE"
 
+export const UPDATE_MESSAGE_SORTING = "UPDATE_MESSAGE_SORTING"
+export const DATE_BASED_SORTING = "DATE_BASED_SORTING"
+export const VOTE_BASED_SORTING = "VOTE_BASED_SORTING"
+
+export function updateMessageSorting(value){
+    return {
+        type: UPDATE_MESSAGE_SORTING,
+        value
+    }
+}
+
 export function fetchCategories(){
     return (dispatch) => {
         getCategories()

@@ -3,7 +3,7 @@ import Comments from "./Comments";
 import Vote from "./Vote";
 import {connect} from "react-redux";
 import {commentsFetch, postDetail, showCommentForm} from "../actions/index";
-import {FloatingActionButton} from "material-ui";
+import {FloatingActionButton, Paper} from "material-ui";
 import {ContentAdd} from "material-ui/svg-icons/index";
 
 class PostDetail extends Component{
@@ -21,11 +21,14 @@ class PostDetail extends Component{
 
         return post && (
             <div>
-                <h1>{post.title}</h1>
-                <h3>By {post.author}</h3>
-                <h4>Post created on {new Date(post.timestamp).toLocaleDateString()}</h4>
-                <h5>Votes: <Vote data={post}></Vote></h5>
-                <p>{post.body}</p>
+                <Paper style={{padding:22}} zDepth={3} >
+                    <h1>{post.title}</h1>
+                    <h3>By {post.author}</h3>
+                    <h4>Post created on {new Date(post.timestamp).toLocaleDateString()}</h4>
+                    <h5>Votes: <Vote data={post}></Vote></h5>
+                    <p>{post.body}</p>
+                </Paper>
+
                 {comments && <Comments comments={comments} ></Comments>}
 
                 <FloatingActionButton onClick={()=>showPopup(post.id)} style={{position: "fixed",bottom: "55px",right:"55px"}}>

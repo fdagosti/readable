@@ -28,19 +28,12 @@ const rightIconMenu = (dispatch, post) =>(
 
 class Posts extends Component{
 
-    state = {
-        orderFunc : null
-    }
-
-    handleChange = (orderFunc) => this.setState({orderFunc})
-
     render(){
 
-        const {posts, dispatch} = this.props
-        const {orderFunc} = this.state
+        const {posts, dispatch, orderFunc} = this.props
 
         return <div>
-            {posts && posts.length>1 && <PostSorter handleChange={this.handleChange}></PostSorter>}
+            {posts && posts.length>1 && <PostSorter ></PostSorter>}
             <RaisedButton onClick={() => dispatch(showCommentForm(true, null, null))} label="Add Post" primary={true} style={{margin:12}} />
 
             <div>
@@ -72,5 +65,11 @@ class Posts extends Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        orderFunc: state.messageSorting.orderFunction,
+    };
+};
 
-export default connect()(Posts)
+
+export default connect(mapStateToProps)(Posts)

@@ -1,19 +1,13 @@
 import React, {Component} from "react"
 import PostSorter from "./PostsSorter";
 import Comment from "./Comment";
+import connect from "react-redux/es/connect/connect";
 
-export default class Comments extends Component{
-
-    state = {
-        commentOrderFunc: null
-    }
-
-    handleChange = commentOrderFunc => this.setState({commentOrderFunc})
+class Comments extends Component{
 
     render(){
 
-        const {comments} = this.props
-        const {commentOrderFunc} = this.state
+        const {comments, commentOrderFunc} = this.props
 
         return (
             (<div>
@@ -24,3 +18,12 @@ export default class Comments extends Component{
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        commentOrderFunc: state.messageSorting.orderFunction,
+    };
+};
+
+
+export default connect(mapStateToProps)(Comments)
