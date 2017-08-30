@@ -1,6 +1,7 @@
 
 import {combineReducers} from "redux";
-import {commentForm, comments} from "./comments";
+import {messageForm, comments, posts, detailPost} from "./comments";
+import {categories} from "./categories";
 
 
 
@@ -8,6 +9,9 @@ import {commentForm, comments} from "./comments";
 
 
 export default combineReducers({
-    comments,
-    commentForm
+    comments: comments,
+    posts: posts,
+    detailPost: detailPost,
+    categories: categories,
+    commentForm: messageForm
 })

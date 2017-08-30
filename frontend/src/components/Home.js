@@ -1,21 +1,19 @@
 import React, {Component} from "react"
 import Posts from "./posts";
-import {getPosts} from "../utils/api";
 import CategoriesSelector from "./CategoriesSelector";
+import {connect} from "react-redux";
+import {postsFetch} from "../actions/index";
 
-export default class Home extends Component {
+class Home extends Component {
 
-    state = {
-        posts : null
-    }
+
     componentDidMount(){
-        getPosts()
-            .then(posts => this.setState({posts}))
+        this.props.fetchPosts()
     }
 
     render(){
 
-        const {posts} = this.state
+        const {posts} = this.props
 
         return (<div>
             <h1 style={{textAlign: "center",textTransform: "uppercase"}}>All Posts</h1>
@@ -25,3 +23,18 @@ export default class Home extends Component {
     }
 
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchPosts: () => dispatch(postsFetch())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

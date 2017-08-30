@@ -3,7 +3,10 @@ import {COMMENT_DELETE_SUCCESS} from "../actions";
 import {COMMENTS_ADD_SUCCESS} from "../actions";
 import {
     COMMENT_EDIT_SUCCESS, COMMENT_FORM_AUTHOR_UPDATE, COMMENT_FORM_BODY_UPDATE,
-    COMMENT_FORM_POPUP_DISPLAY_UPDATE
+    COMMENT_FORM_POPUP_DISPLAY_UPDATE, POST_ADD_SUCCESS, POST_DELETE_SUCCESS, POST_DETAIL_SUCCESS, POST_EDIT_SUCCESS,
+    POST_FORM_CATEGORY_UPDATE,
+    POST_FORM_TITLE_UPDATE,
+    POSTS_FETCH_SUCCESS
 } from "../actions/index";
 
 
@@ -26,18 +29,46 @@ export function comments (state = [], action) {
     }
 }
 
-const initialCommentForm = {
+export function posts (state = [], action) {
+    switch (action.type) {
+        case POSTS_FETCH_SUCCESS:
+            return action.posts.filter(post=>!post.deleted)
+        case POST_ADD_SUCCESS:
+            const {post} = action
+            return state.concat(post)
+        case POST_DELETE_SUCCESS:
+            const {postId} = action
+            return state.filter(post=>post.id !== postId)
+        case POST_EDIT_SUCCESS:
+            return state.map(p=>p.id === action.post.id?action.post:p)
+        default :
+            return state
+    }
+}
+
+export function detailPost(state={}, action){
+    switch (action.type){
+        case POST_DETAIL_SUCCESS:
+            return action.post
+        default:
+            return state
+    }
+}
+
+const initialMessageForm = {
     createCommentsModalOpen: false,
     body: null,
     author: null,
+    title: null,
+    category: null,
     existingComment: null,
     parentId:null
 }
 
-export function commentForm(state = initialCommentForm, action){
+export function messageForm(state = initialMessageForm, action){
     switch (action.type) {
         case COMMENTS_ADD_SUCCESS:
-            return {...state,body:null,author:null, parentId: null}
+            return {...state,body:null,title: null, author:null, parentId: null}
         case COMMENT_FORM_BODY_UPDATE:
             const {body} = action
             return {...state,body}
@@ -46,8 +77,21 @@ export function commentForm(state = initialCommentForm, action){
             return {...state,author}
         case COMMENT_FORM_POPUP_DISPLAY_UPDATE:
             const {createCommentsModalOpen, existingComment, parentId} = action
-            return {...state,createCommentsModalOpen, existingComment, parentId}
-
+            return {
+                ...state,
+                createCommentsModalOpen,
+                existingComment,
+                parentId,
+                body: existingComment && existingComment.body,
+                title: existingComment && existingComment.title,
+                category: existingComment && existingComment.category
+            }
+        case POST_FORM_TITLE_UPDATE:
+            const {title} = action
+            return {...state,title}
+            case POST_FORM_CATEGORY_UPDATE:
+            const {category} = action
+            return {...state,category}
         default:
             return state
 

@@ -1,30 +1,50 @@
 import React, {Component} from "react"
-import {Dialog, FlatButton, TextField} from "material-ui";
+import {Dialog, FlatButton, MenuItem, SelectField, TextField} from "material-ui";
 import {connect} from "react-redux";
 import {
     commentAdd,
     commentEdit,
     commentFormAuthorUpdate,
     commentFormBodyUpdate,
+    fetchCategories,
+    postAdd,
+    postEdit,
+    postFormCategoryUpdate,
+    postFormTitleUpdate,
     showCommentForm,
 } from "../actions/index";
 
 class CommentForm extends Component{
 
+    componentDidMount(){
+        this.props.fetchCategories()
+    }
+
 
     handleAddComment = () => {
-        const {parentId, addComment,editComment, body, author, closePopup, commentToRender} = this.props
-        if (commentToRender){
-            editComment(body, commentToRender.id)
+
+        const {parentId, addComment,addPost,editPost, editComment, body, author, closePopup, commentToRender, title, category} = this.props
+        if (parentId){
+            if (commentToRender){
+                editComment(body, commentToRender.id)
+            }else{
+                addComment(body, author, parentId)
+            }
         }else{
-            addComment(body, author, parentId)
+            if (commentToRender){
+                editPost(commentToRender.id, title, body, category)
+            }else{
+                addPost(title, body, author, category)
+            }
         }
         closePopup()
     }
 
     render() {
 
-        let {updateBody, updateAuthor, closePopup, createCommentsModalOpen, commentToRender, body, author} = this.props
+        let {categories, updateBody, updateAuthor, updateTitle, updateCategory, closePopup, createCommentsModalOpen, commentToRender, body, author, title, category} = this.props
+
+        const isPostForm = !this.props.parentId
 
         const actions = [
             <FlatButton
@@ -47,11 +67,19 @@ class CommentForm extends Component{
             author = commentToRender.author
         }
 
+        if (!title && commentToRender){
+            title = commentToRender.title
+        }
+
+        if (!category && commentToRender){
+            category = commentToRender.category
+        }
+
         return (
             <div>
 
                 <Dialog
-                    title="Add a comment"
+                    title={`Add a ${isPostForm?'Post':'Comment'}`}
                     actions={actions}
                     modal={false}
                     open={createCommentsModalOpen}
@@ -65,6 +93,23 @@ class CommentForm extends Component{
                             onChange={e => updateAuthor(e.target.value)}
                             disabled={commentToRender!=null}
                         /><br />
+                    {isPostForm && <div>
+                        <TextField
+                            value={title||""}
+                            floatingLabelText="Title"
+                            hintText="What is your title?"
+                            onChange={e => updateTitle(e.target.value)}
+                            disabled={commentToRender!=null}
+                        />
+                        <br/>
+                        <SelectField
+                            floatingLabelText="category"
+                            value={category}
+                            onChange={(e,idx,v) => updateCategory(v)}
+                        >
+                            {categories && categories.map(cat=><MenuItem key={cat.path} value={cat.path} primaryText={cat.name} />)}
+                        </SelectField>
+                        <br /></div>}
                         <TextField
                             value={body||""}
                             floatingLabelText="Comment Body"
@@ -83,8 +128,11 @@ class CommentForm extends Component{
 
 const mapStateToProps = (state) => {
     return {
+        categories: state.categories.categories,
         body: state.commentForm.body,
         author: state.commentForm.author,
+        title: state.commentForm.title,
+        category: state.commentForm.category,
         createCommentsModalOpen: state.commentForm.createCommentsModalOpen,
         commentToRender: state.commentForm.existingComment,
         parentId: state.commentForm.parentId
@@ -96,8 +144,13 @@ const mapDispatchToProps = (dispatch) => {
         closePopup: () => dispatch(showCommentForm(false)),
         updateBody: (bodyText) => dispatch(commentFormBodyUpdate(bodyText)),
         updateAuthor: (authorText) => dispatch(commentFormAuthorUpdate(authorText)),
+        updateTitle: (titleText) => dispatch(postFormTitleUpdate(titleText)),
+        updateCategory: (category) => dispatch(postFormCategoryUpdate(category)),
         editComment: (body, commentId) => dispatch(commentEdit(commentId, body)),
-        addComment: (body, author, postId) => dispatch(commentAdd(body, author, postId))
+        editPost: (postId, title, body, category) => dispatch(postEdit(postId, title, body, category)),
+        addComment: (body, author, postId) => dispatch(commentAdd(body, author, postId)),
+        addPost: (title, body, author, category) => dispatch(postAdd(title, body, author, category)),
+        fetchCategories: () => dispatch(fetchCategories())
     };
 };
 

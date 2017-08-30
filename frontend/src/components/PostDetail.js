@@ -1,36 +1,30 @@
 import React, {Component} from "react"
-import {getPost} from "../utils/api";
 import Comments from "./Comments";
 import Vote from "./Vote";
 import {connect} from "react-redux";
-import {commentsFetch, showCommentForm} from "../actions/index";
+import {commentsFetch, postDetail, showCommentForm} from "../actions/index";
 import {FloatingActionButton} from "material-ui";
 import {ContentAdd} from "material-ui/svg-icons/index";
 
 class PostDetail extends Component{
 
-    state = {
-        post: null,
-    }
-
     componentDidMount(){
         const postId = this.props.match.params.id;
-        getPost(postId)
-            .then(post => this.setState({post}))
-            .then(() => this.props.fetchComments(postId))
+
+        this.props.fetchPost(postId)
+        this.props.fetchComments(postId)
     }
 
     render(){
 
-        const {post} = this.state;
-        const {comments, showPopup} = this.props
+        const {post, comments, showPopup} = this.props
 
         return post && (
             <div>
                 <h1>{post.title}</h1>
                 <h3>By {post.author}</h3>
                 <h4>Post created on {new Date(post.timestamp).toLocaleDateString()}</h4>
-                <h5>Votes: <Vote score={post.voteScore}></Vote></h5>
+                <h5>Votes: <Vote data={post}></Vote></h5>
                 <p>{post.body}</p>
                 {comments && <Comments comments={comments} ></Comments>}
 
@@ -44,11 +38,13 @@ class PostDetail extends Component{
 const mapStateToProps = (state) => {
     return {
         comments: state.comments,
+        post: state.detailPost
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        fetchPost: (postId) => dispatch(postDetail(postId)),
         fetchComments: (postId) => dispatch(commentsFetch(postId)),
         showPopup: (postId) => dispatch(showCommentForm(true, postId)),
     };

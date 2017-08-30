@@ -25,7 +25,7 @@ class Comment extends Component{
                             onClick={()=>dispatch(showCommentForm(true, comment.parentId, comment))}
                         />
                         <FlatButton onClick={()=>dispatch(commentDelete(comment.id))} secondary={true} label="Delete"/>
-                        <Vote score={comment.voteScore}></Vote>
+                        <Vote data={comment} ></Vote>
                     </CardActions>
                 </Card>
 

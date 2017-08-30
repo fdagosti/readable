@@ -1,24 +1,33 @@
 import React, {Component} from "react"
-import {getPosts} from "../utils/api";
 import Posts from "./posts";
+import {connect} from "react-redux";
+import {postsFetchByCategory} from "../actions/index";
 
 
-export default class CategoryPosts extends Component {
+class CategoryPosts extends Component {
 
-    state = {
-        posts : null
-    }
+
 
     componentDidMount(){
-        getPosts(this.props.match.params.id)
-            .then(posts => this.setState({posts, category: this.props.match.params.id}))
+        this.props.dispatch(postsFetchByCategory(this.props.match.params.id))
     }
 
     render() {
-        const {posts, category} = this.state
+        const category = this.props.match.params.id
+        const posts = this.props.posts
+
         return (<div>
             <p>Category {category}</p>
             <Posts posts={posts}></Posts>
         </div>)
     }
 }
+
+const mapStateToProps = ({categories}) => {
+    return {
+        posts: categories.catBasedPosts && categories.catBasedPosts.posts
+    };
+};
+
+
+export default connect(mapStateToProps)(CategoryPosts)
