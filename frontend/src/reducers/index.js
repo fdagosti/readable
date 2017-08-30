@@ -15,5 +15,5 @@ export default combineReducers({
     detailPost: detailPost,
     categories: categories,
     messageSorting:messageSorting,
-    commentForm: messageForm
+    messageForm: messageForm
 })

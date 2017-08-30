@@ -14,7 +14,7 @@ import {
     showCommentForm,
 } from "../actions/index";
 
-class CommentForm extends Component{
+class MessageForm extends Component{
 
     componentDidMount(){
         this.props.fetchCategories()
@@ -85,7 +85,6 @@ class CommentForm extends Component{
                     open={createCommentsModalOpen}
                     onRequestClose={closePopup}
                 >
-
                         <TextField
                             value={author||""}
                             floatingLabelText="Author"
@@ -126,16 +125,16 @@ class CommentForm extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({categories, messageForm}) => {
     return {
-        categories: state.categories.categories,
-        body: state.commentForm.body,
-        author: state.commentForm.author,
-        title: state.commentForm.title,
-        category: state.commentForm.category,
-        createCommentsModalOpen: state.commentForm.createCommentsModalOpen,
-        commentToRender: state.commentForm.existingComment,
-        parentId: state.commentForm.parentId
+        categories: categories.categories,
+        body: messageForm.body,
+        author: messageForm.author,
+        title: messageForm.title,
+        category: messageForm.category,
+        createCommentsModalOpen: messageForm.createCommentsModalOpen,
+        commentToRender: messageForm.existingComment,
+        parentId: messageForm.parentId
     };
 };
 
@@ -154,4 +153,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(CommentForm)
+export default connect(mapStateToProps,mapDispatchToProps)(MessageForm)

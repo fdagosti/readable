@@ -21,6 +21,8 @@ class CategoryPosts extends Component {
         const category = this.props.match.params.id
         const posts = this.props.posts
 
+        console.log("CATEGORY POSTS",posts)
+
         return (<div>
             <h2 style={{textAlign: "center",textTransform: "uppercase"}}>All posts of category <u>{category}</u></h2>
             <Button></Button>
@@ -29,9 +31,9 @@ class CategoryPosts extends Component {
     }
 }
 
-const mapStateToProps = ({categories}) => {
+const mapStateToProps = ({categories, posts}) => {
     return {
-        posts: categories.catBasedPosts && categories.catBasedPosts.posts
+        posts: categories.catBasedPosts && categories.catBasedPosts.posts.map(postId=>posts.find(post=>post.id===postId))
     };
 };
 

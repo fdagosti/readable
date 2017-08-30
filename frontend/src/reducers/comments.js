@@ -2,6 +2,7 @@ import {COMMENTS_FETCH_SUCCESS} from "../actions";
 import {COMMENT_DELETE_SUCCESS} from "../actions";
 import {COMMENTS_ADD_SUCCESS} from "../actions";
 import {
+    CATEGORY_POSTS_FETCH_SUCCESS,
     COMMENT_EDIT_SUCCESS, COMMENT_FORM_AUTHOR_UPDATE, COMMENT_FORM_BODY_UPDATE,
     COMMENT_FORM_POPUP_DISPLAY_UPDATE, COMMENT_VOTE_SUCCESS, POST_ADD_SUCCESS, POST_DELETE_SUCCESS, POST_DETAIL_SUCCESS,
     POST_EDIT_SUCCESS,
@@ -35,6 +36,7 @@ export function comments (state = {}, action) {
 export function posts (state = [], action) {
     switch (action.type) {
         case POSTS_FETCH_SUCCESS:
+        case CATEGORY_POSTS_FETCH_SUCCESS:
             return action.posts.filter(post=>!post.deleted)
         case POST_ADD_SUCCESS:
             return state.concat(action.post)
