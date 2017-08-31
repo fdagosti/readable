@@ -42,7 +42,7 @@ class Posts extends Component{
                             {posts.sort(orderFunc).map(post => (
                                 <div key={post.id}>
                                     <ListItem
-                                        containerElement={<Link to={`/post/${post.id}`}/>}
+                                        containerElement={<Link to={`/${post.category}/${post.id}`}/>}
                                         leftAvatar={<Avatar icon={<ActionViewHeadline />} />}
                                         primaryText={post.title}
                                         rightIconButton={rightIconMenu(dispatch, post)}

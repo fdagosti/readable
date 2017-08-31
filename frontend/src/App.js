@@ -23,14 +23,12 @@ class App extends Component {
               <Route exact path={"/"}
                      component={Home}
               />
-              <Route path={"/category/:id"}
+              <Route exact path={"/:categoryId"}
                      component={CategoryPosts}
               />
-              <Route path = {'/post/:id'}
+              <Route path = {'/:categoryId/:id'}
                      component={PostDetail}
               />
-              <Route path={"/post/:id/edit"}/>
-              <Route path={"/newPost"}/>
               <CommentForm ></CommentForm>
           </div>
 

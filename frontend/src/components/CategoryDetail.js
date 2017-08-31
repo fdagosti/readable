@@ -14,11 +14,11 @@ const Button = withRouter(({history})=>(
 class CategoryPosts extends Component {
 
     componentDidMount(){
-        this.props.dispatch(postsFetchByCategory(this.props.match.params.id))
+        this.props.dispatch(postsFetchByCategory(this.props.match.params.categoryId))
     }
 
     render() {
-        const category = this.props.match.params.id
+        const category = this.props.match.params.categoryId
         const posts = this.props.posts
 
         console.log("CATEGORY POSTS",posts)
