@@ -2,7 +2,7 @@ import React from "react"
 import {IconButton} from "material-ui";
 import {HardwareKeyboardArrowDown, HardwareKeyboardArrowUp} from "material-ui/svg-icons/index";
 import {connect} from "react-redux";
-import {changeCommentVote, commentVote, vote} from "../actions/index";
+import {vote} from "../actions/index";
 
 const styles = {
     smallIcon: {

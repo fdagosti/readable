@@ -2,9 +2,8 @@ import React, {Component} from "react"
 import Posts from "./posts";
 import {connect} from "react-redux";
 import {postsFetchByCategory} from "../actions/index";
-import {BrowserRouter, withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import {RaisedButton} from "material-ui";
-
 
 
 const Button = withRouter(({history})=>(

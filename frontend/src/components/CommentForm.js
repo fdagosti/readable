@@ -11,7 +11,7 @@ import {
     postEdit,
     postFormCategoryUpdate,
     postFormTitleUpdate,
-    showCommentForm,
+    showPostCommentForm,
 } from "../actions/index";
 
 class MessageForm extends Component{
@@ -140,7 +140,7 @@ const mapStateToProps = ({categories, messageForm}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        closePopup: () => dispatch(showCommentForm(false)),
+        closePopup: () => dispatch(showPostCommentForm(false)),
         updateBody: (bodyText) => dispatch(commentFormBodyUpdate(bodyText)),
         updateAuthor: (authorText) => dispatch(commentFormAuthorUpdate(authorText)),
         updateTitle: (titleText) => dispatch(postFormTitleUpdate(titleText)),

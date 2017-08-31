@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {Card, CardActions, CardHeader, CardText, FlatButton} from "material-ui";
 import Vote from "./Vote";
 import {connect} from "react-redux";
-import {commentDelete, showCommentForm,} from "../actions/index";
+import {commentDelete, showPostCommentForm,} from "../actions/index";
 
 class Comment extends Component{
 
@@ -22,7 +22,7 @@ class Comment extends Component{
                     <CardActions>
                         <FlatButton
                             primary={true} label="Edit"
-                            onClick={()=>dispatch(showCommentForm(true, comment.parentId, comment))}
+                            onClick={()=>dispatch(showPostCommentForm(true, comment.parentId, comment))}
                         />
                         <FlatButton onClick={()=>dispatch(commentDelete(comment.id))} secondary={true} label="Delete"/>
                         <Vote data={comment} ></Vote>

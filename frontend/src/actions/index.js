@@ -120,7 +120,7 @@ export function postFormCategoryUpdate(category){
 }
 
 
-export function showCommentForm(displayed, parentId, comment){
+export function showPostCommentForm(displayed, parentId, comment){
     return {
         type: COMMENT_FORM_POPUP_DISPLAY_UPDATE,
         createCommentsModalOpen:displayed,

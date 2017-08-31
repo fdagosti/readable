@@ -6,6 +6,9 @@ import CategoryPosts from "./components/CategoryDetail";
 import PostDetail from "./components/PostDetail";
 import Link from "react-router-dom/es/Link";
 import CommentForm from "./components/CommentForm";
+import {AppBar, FlatButton} from "material-ui";
+import {connect} from "react-redux";
+import {showPostCommentForm} from "./actions/index";
 
 class App extends Component {
 
@@ -13,6 +16,7 @@ class App extends Component {
     return (
 
       <div className="App">
+          <Nav></Nav>
           <Link to="/">
               <div className="App-header">
                   <div className="App-intro">Posts and comments</div>
@@ -37,5 +41,12 @@ class App extends Component {
     );
   }
 }
+
+let Nav = ({dispatch})=>(<AppBar
+    title="Post And Comments in React"
+    iconElementRight={<FlatButton onClick={()=>dispatch(showPostCommentForm(true))} label="Add Post"/>}
+/>)
+
+Nav = connect()(Nav)
 
 export default App;

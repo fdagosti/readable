@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import Comments from "./Comments";
 import Vote from "./Vote";
 import {connect} from "react-redux";
-import {commentsFetch, postDetail, showCommentForm} from "../actions/index";
+import {commentsFetch, postDetail, showPostCommentForm} from "../actions/index";
 import {FloatingActionButton, Paper} from "material-ui";
 import {ContentAdd} from "material-ui/svg-icons/index";
 
@@ -12,7 +12,6 @@ class PostDetail extends Component{
         const postId = this.props.match.params.id;
 
         this.props.fetchPost(postId)
-        this.props.fetchComments(postId)
     }
 
     render(){
@@ -51,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchPost: (postId) => dispatch(postDetail(postId)),
         fetchComments: (postId) => dispatch(commentsFetch(postId)),
-        showPopup: (postId) => dispatch(showCommentForm(true, postId)),
+        showPopup: (postId) => dispatch(showPostCommentForm(true, postId)),
     };
 };
 

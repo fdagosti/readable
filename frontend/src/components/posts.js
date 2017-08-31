@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import PostSorter from "./PostsSorter";
 import Vote from "./Vote";
 import {connect} from "react-redux";
-import {postDelete, showCommentForm} from "../actions/index";
+import {postDelete, showPostCommentForm} from "../actions/index";
 import {grey400} from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
@@ -21,7 +21,7 @@ const iconButtonElement = (
 
 const rightIconMenu = (dispatch, post) =>(
     <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem onClick={()=>dispatch(showCommentForm(true, null, post))}>Edit</MenuItem>
+        <MenuItem onClick={()=>dispatch(showPostCommentForm(true, null, post))}>Edit</MenuItem>
         <MenuItem onClick={()=>dispatch(postDelete(post.id))}>Delete</MenuItem>
     </IconMenu>
 );
@@ -32,7 +32,7 @@ class Posts extends Component{
         const {posts, dispatch, orderFunc, commentsNumber} = this.props
         return <div>
             {posts && posts.length>1 && <PostSorter ></PostSorter>}
-            <RaisedButton onClick={() => dispatch(showCommentForm(true, null, null))} label="Add Post" primary={true} style={{margin:12}} />
+            <RaisedButton onClick={() => dispatch(showPostCommentForm(true, null, null))} label="Add Post" primary={true} style={{margin:12}} />
 
             <div>
                 {posts && posts.length?
