@@ -20,8 +20,6 @@ class CategoryPosts extends Component {
         const category = this.props.match.params.categoryId
         const posts = this.props.posts
 
-        console.log("CATEGORY POSTS",posts)
-
         return (<div>
             <h2 style={{textAlign: "center",textTransform: "uppercase"}}>All posts of category <u>{category}</u></h2>
             <Button></Button>
