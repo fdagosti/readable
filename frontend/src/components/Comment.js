@@ -7,10 +7,10 @@ import {commentDelete, showPostCommentForm,} from "../actions/index";
 class Comment extends Component{
 
     render (){
-        const {comment, dispatch} = this.props
+        const {comment, editComment, deleteComment} = this.props
 
         return (
-            <div>
+            <div style={{padding: "20px"}}>
                 <Card>
                     <CardHeader
                         title={comment.author}
@@ -22,9 +22,9 @@ class Comment extends Component{
                     <CardActions>
                         <FlatButton
                             primary={true} label="Edit"
-                            onClick={()=>dispatch(showPostCommentForm(true, comment.parentId, comment))}
+                            onClick={()=>editComment(comment.parentId, comment)}
                         />
-                        <FlatButton onClick={()=>dispatch(commentDelete(comment.id))} secondary={true} label="Delete"/>
+                        <FlatButton onClick={()=>deleteComment(comment.id)} secondary={true} label="Delete"/>
                         <Vote data={comment} ></Vote>
                     </CardActions>
                 </Card>
@@ -34,5 +34,11 @@ class Comment extends Component{
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        editComment: (parentId, comment) => dispatch(showPostCommentForm(true, parentId, comment)),
+        deleteComment: (commentId) => dispatch(commentDelete(commentId))
+    };
+};
 
-export default connect()(Comment)
+export default connect(null, mapDispatchToProps)(Comment)

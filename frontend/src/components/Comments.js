@@ -19,9 +19,9 @@ class Comments extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({messageSorting}) => {
     return {
-        commentOrderFunc: state.messageSorting.orderFunction,
+        commentOrderFunc: messageSorting.orderFunction,
     };
 };
 

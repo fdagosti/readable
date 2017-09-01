@@ -1,4 +1,5 @@
-import {CATEGORIES_FETCH_SUCCESS, CATEGORY_POSTS_FETCH_SUCCESS, POST_EDIT_SUCCESS} from "../actions/index";
+import {CATEGORIES_FETCH_SUCCESS, CATEGORY_POSTS_FETCH_SUCCESS} from "../actions/categories";
+import {POST_EDIT_SUCCESS} from "../actions/posts";
 
 
 const initialCategoryState = {

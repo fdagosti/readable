@@ -1,16 +1,18 @@
-import {COMMENTS_FETCH_SUCCESS} from "../actions";
-import {COMMENT_DELETE_SUCCESS} from "../actions";
-import {COMMENTS_ADD_SUCCESS} from "../actions";
+import {COMMENT_DELETE_SUCCESS, COMMENTS_ADD_SUCCESS, COMMENTS_FETCH_SUCCESS} from "../actions";
 import {
-    CATEGORY_POSTS_FETCH_SUCCESS,
-    COMMENT_EDIT_SUCCESS, COMMENT_FORM_AUTHOR_UPDATE, COMMENT_FORM_BODY_UPDATE,
-    COMMENT_FORM_POPUP_DISPLAY_UPDATE, COMMENT_VOTE_SUCCESS, POST_ADD_SUCCESS, POST_DELETE_SUCCESS, POST_DETAIL_SUCCESS,
-    POST_EDIT_SUCCESS,
+    COMMENT_EDIT_SUCCESS,
+    COMMENT_FORM_AUTHOR_UPDATE,
+    COMMENT_FORM_BODY_UPDATE,
+    COMMENT_FORM_POPUP_DISPLAY_UPDATE,
+    COMMENT_VOTE_SUCCESS,
     POST_FORM_CATEGORY_UPDATE,
-    POST_FORM_TITLE_UPDATE, POST_VOTE_SUCCESS,
-    POSTS_FETCH_SUCCESS
+    POST_FORM_TITLE_UPDATE,
 } from "../actions/index";
-
+import {CATEGORY_POSTS_FETCH_SUCCESS} from "../actions/categories";
+import {
+    POST_ADD_SUCCESS, POST_DELETE_SUCCESS, POST_DETAIL_SUCCESS, POST_EDIT_SUCCESS, POST_VOTE_SUCCESS,
+    POSTS_FETCH_SUCCESS
+} from "../actions/posts";
 
 
 export function comments (state = {}, action) {
@@ -52,7 +54,7 @@ export function posts (state = [], action) {
     }
 }
 
-export function detailPost(state={}, action){
+export function detailPost(state=null, action){
     switch (action.type){
         case POST_DETAIL_SUCCESS:
         case POST_VOTE_SUCCESS:
@@ -61,6 +63,7 @@ export function detailPost(state={}, action){
             return state
     }
 }
+
 
 const initialMessageForm = {
     createCommentsModalOpen: false,

@@ -6,13 +6,12 @@ import {
     commentEdit,
     commentFormAuthorUpdate,
     commentFormBodyUpdate,
-    fetchCategories,
-    postAdd,
-    postEdit,
     postFormCategoryUpdate,
     postFormTitleUpdate,
     showPostCommentForm,
 } from "../actions/index";
+import {fetchCategories} from "../actions/categories";
+import {postAdd, postEdit} from "../actions/posts";
 
 class MessageForm extends Component{
 

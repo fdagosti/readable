@@ -5,9 +5,10 @@ import {Link} from "react-router-dom";
 import PostSorter from "./PostsSorter";
 import Vote from "./Vote";
 import {connect} from "react-redux";
-import {postDelete, showPostCommentForm} from "../actions/index";
+import {showPostCommentForm} from "../actions/index";
 import {grey400} from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import {postDelete} from "../actions/posts";
 
 const iconButtonElement = (
     <IconButton
@@ -66,7 +67,6 @@ class Posts extends Component{
 const mapStateToProps = ({messageSorting, comments}) => {
 
     return {
-        debug: comments,
         orderFunc: messageSorting.orderFunction,
         commentsNumber: Object.keys(comments).reduce((commentsByPosts, commentId)=>{
             if (commentsByPosts[comments[commentId].parentId] ) commentsByPosts[comments[commentId].parentId]++

@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {RaisedButton} from "material-ui";
 import Link from "react-router-dom/es/Link";
 import {connect} from "react-redux";
-import {fetchCategories} from "../actions/index";
+import {fetchCategories} from "../actions/categories";
 
 
 class CategoriesSelector extends Component {

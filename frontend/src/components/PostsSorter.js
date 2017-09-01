@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {MenuItem, SelectField} from "material-ui";
 import connect from "react-redux/es/connect/connect";
-import {DATE_BASED_SORTING, updateMessageSorting, VOTE_BASED_SORTING} from "../actions/index";
+import {DATE_BASED_SORTING, updateMessageSorting, VOTE_BASED_SORTING} from "../actions/sorting";
 
 class PostSorter extends Component{
 

@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import Posts from "./posts";
 import CategoriesSelector from "./CategoriesSelector";
 import {connect} from "react-redux";
-import {postsFetch} from "../actions/index";
+import {postsFetch} from "../actions/posts";
 
 class Home extends Component {
 
@@ -25,9 +25,9 @@ class Home extends Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({posts}) => {
     return {
-        posts: state.posts
+        posts
     };
 };
 

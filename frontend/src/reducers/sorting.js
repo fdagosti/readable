@@ -1,4 +1,5 @@
-import {DATE_BASED_SORTING, UPDATE_MESSAGE_SORTING} from "../actions/index";
+
+import {DATE_BASED_SORTING, UPDATE_MESSAGE_SORTING} from "../actions/sorting";
 
 const voteSortFunc = (a, b) => a.voteScore < b.voteScore
 const dateSortFunc = (a,b) => a.timestamp < b.timestamp
